@@ -19,6 +19,7 @@ Gem::Specification.new do |s|
     "examples/website.rb"              
   ]  
   s.require_paths = ["lib"]
+  s.add_dependency "cucumber", [">= 0.1.15"]
 
   s.has_rdoc = "false"
 end
