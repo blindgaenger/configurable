@@ -43,4 +43,4 @@ ips = Computer.map {|name, computer| computer.ip }
 Computer['raumstation'] #=> <Computer:0xb7c6e4c4 @type=:server, @hostname="raumstation", @ip="192.168.0.201">
 Computer['apfelsaft']   #=> <Computer:0xb7c6e62c @type=:desktop, @hostname="apfelsaft", @ip="192.168.0.200">
 Computer['wohnserver']  #=> <Computer:0xb7c6e370 @type=:server, @hostname="wohnserver", @ip="192.168.0.202">
-Computer['gartenstuhl'] #=> <Computer:0xb7c6e21c @type=:notebook, @hostname="gartenstuhl", @ip="192.168.0.203">
+Computer['leuchtspur'] #=> <Computer:0xb7c6e21c @type=:notebook, @hostname="leuchtspur", @ip="192.168.0.203">

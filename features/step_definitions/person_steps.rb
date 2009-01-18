@@ -45,7 +45,9 @@ When /^I configure "(\w+)" to "(.*)"$/ do |attribute, value|
 end
 
 Then /^I can get it from (\w+) as "(.*)"$/ do |config_name, key|
-  @config_class[key].should == @config_instance
+  @config_instance = @config_class[key]
+  @config_instance.should_not be_nil
+  @config_instance.class.should == @config_class
 end
 
 Then /^I can get "(\w+)" as "(.*)"$/ do |attribute, value|
