@@ -9,6 +9,7 @@ See the @examples/triangle.rb@ for the example described here.
 
 Include it in your class and define some configuration attributes:
 
+<pre><code>
   require 'rubygems'
   require 'configurable'
 
@@ -18,10 +19,12 @@ Include it in your class and define some configuration attributes:
     config_accessor :shape
     config_accessor :color
   end
+</code></pre>
 
 Configure some instances. Each config needs a @key@ to be accessible beside all 
 the other configs. Let's name it after some important mathematics.
 
+<pre><code>
   Triangle.configure 'euklid' do
     shape 'isosceles'
     color 'red'
@@ -31,9 +34,11 @@ the other configs. Let's name it after some important mathematics.
     shape 'equilateral'
     color 'blue'
   end
+</code></pre>
 
 Use the configured instances.
 
+<pre><code>
   Triangle.configs #=>  {"euclid"=>#<Triangle:0x...>, "pythagoras"=>#<Triangle:0x...>}
 
   Triangle.each {|name, triangle|
@@ -41,7 +46,7 @@ Use the configured instances.
   }
 
   Triangle['pythagoras'].shape #=> equilateral
-
+</code></pre>
 
 Of course, feel free to have a look at the "source code":http://github.com/blindgaenger/configurable on Github. ;)  
 
@@ -54,6 +59,7 @@ the model as well. Of course, you could specify it again, but that's not necessa
 Just define (or maybe you already have) a contructor which is able to receive
 the specified key. It's up to you, what you do with it.
 
+<pre><code>
   class Website
     include Configurable
     
@@ -72,6 +78,7 @@ the specified key. It's up to you, what you do with it.
   so = Website['StackOverflow']
   so.name  #=> StackOverflow
   so.url   #=> http://stackoverflow.com/
+</code></pre>
 
 
 h3. Reader, writer or accessor
@@ -80,6 +87,7 @@ The basic @attr_*@ methods are available as @config_*@. They create the getter
 and setter methods as usual. So you can still define which attributes should be 
 accessible from the outside world.
 
+<pre><code>
   class Person
     include Configurable
 
@@ -114,6 +122,7 @@ accessible from the outside world.
   brecht.friends #=> ["Hanns Eisler", "Karl Valentin"]
   brecht.friends << 'Carola Neher'
   brecht.friends #=> ["Hanns Eisler", "Karl Valentin", "Carola Neher"]  
+</code></pre>
 
 You see, all behave the exact same way!
 
@@ -125,6 +134,7 @@ Please see @examples/computers.rb@ for the working example.
 Ok, at first define the model. Please note, that @type@ is the second parameter
 of the constructor.
 
+<pre><code>
   class Computer
     include Configurable
 
@@ -137,11 +147,13 @@ of the constructor.
       @type = type
     end
   end
+</code></pre>
 
 Now define some DSLish config helpers. Each injects a different @type@ as 
 arguments to the @configure@ methods. Use as much arguments as you like. But it's 
 important, that the @key@ (in this case the @name@) is still the first argument.
 
+<pre><code>
   def server(name, &block)
     Computer.configure(name, :server, &block)
   end
@@ -149,10 +161,12 @@ important, that the @key@ (in this case the @name@) is still the first argument.
   def notebook(name, &block)
     Computer.configure(name, :notebook, &block)
   end
+</code></pre>
 
 Create a config file and use the DSL. Although the helpers simply wrap the 
 @configure@ method it looks much nicer!
 
+<pre><code>
   server 'raumstation' do
     ip '192.168.0.201'
   end
@@ -164,9 +178,11 @@ Create a config file and use the DSL. Although the helpers simply wrap the
   notebook 'gartenstuhl' do
     ip '192.168.0.203'
   end
+</code></pre>
 
 Back in your ruby file, load the config and use it as usual.
 
+<pre><code>
   config_file = 'computers.config'
   load config_file
 
@@ -175,6 +191,7 @@ Back in your ruby file, load the config and use it as usual.
 
   raumstation = Computer['raumstation']
   raumstation.type #=> :server
+</code></pre>
 
 That's it!
 
