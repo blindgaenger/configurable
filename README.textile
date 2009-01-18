@@ -1,0 +1,186 @@
+h1. Configurable
+
+Little helper to configure ruby instances in a DSLish way.
+
+
+h2. Usage
+
+See the @examples/triangle.rb@ for the example described here.
+
+Include it in your class and define some configuration attributes:
+
+  require 'rubygems'
+  require 'configurable'
+
+  class Triangle
+    include Configurable
+
+    config_accessor :shape
+    config_accessor :color
+  end
+
+Configure some instances. Each config needs a @key@ to be accessible beside all 
+the other configs. Let's name it after some important mathematics.
+
+  Triangle.configure 'euklid' do
+    shape 'isosceles'
+    color 'red'
+  end
+
+  Triangle.configure 'pythagoras' do
+    shape 'equilateral'
+    color 'blue'
+  end
+
+Use the configured instances.
+
+  Triangle.configs #=>  {"euclid"=>#<Triangle:0x...>, "pythagoras"=>#<Triangle:0x...>}
+
+  Triangle.each {|name, triangle|
+    puts "#{name} => #{triangle.inspect}"
+  }
+
+  Triangle['pythagoras'].shape #=> equilateral
+
+
+Of course, feel free to have a look at the "source code":http://github.com/blindgaenger/configurable on Github. ;)  
+
+ 
+h3. Initalize with the configured key
+
+In some cases the key you use in the @configure@ method should be available in 
+the model as well. Of course, you could specify it again, but that's not necessary.
+
+Just define (or maybe you already have) a contructor which is able to receive
+the specified key. It's up to you, what you do with it.
+
+  class Website
+    include Configurable
+    
+    config_accessor :name
+    config_accessor :url
+
+    def initialize(key)
+      @name = key
+    end
+  end
+
+  Website.configure 'StackOverflow' do
+    url 'http://stackoverflow.com/'
+  end
+
+  so = Website['StackOverflow']
+  so.name  #=> StackOverflow
+  so.url   #=> http://stackoverflow.com/
+
+
+h3. Reader, writer or accessor
+
+The basic @attr_*@ methods are available as @config_*@. They create the getter 
+and setter methods as usual. So you can still define which attributes should be 
+accessible from the outside world.
+
+  class Person
+    include Configurable
+
+    config_reader   :birthday   # can't change it
+    config_writer   :nickname   # don't even know how they call you
+    config_accessor :friends    # may come and go
+  end
+  
+  Person.configure 'Bertolt Brecht' do
+    birthday '1898-02-10'
+    nickname 'Bert'
+    friends 'Hanns Eisler', 'Karl Valentin'
+  end
+  
+  brecht = Person['Bertolt Brecht']
+  
+  # reader
+  brecht.birthday #=> 1898-02-10
+  begin  
+    brecht.birthday = '2008-12-24'
+  rescue NoMethodError => ex
+  end
+  
+  # writer
+  brecht.nickname = 'Herr K.'
+  begin
+    brecht.nickname
+  rescue NoMethodError => ex
+  end
+  
+  # accessor
+  brecht.friends #=> ["Hanns Eisler", "Karl Valentin"]
+  brecht.friends << 'Carola Neher'
+  brecht.friends #=> ["Hanns Eisler", "Karl Valentin", "Carola Neher"]  
+
+You see, all behave the exact same way!
+
+
+h3. Use in configuration files
+
+Please see @examples/computers.rb@ for the working example.
+
+Ok, at first define the model. Please note, that @type@ is the second parameter
+of the constructor.
+
+  class Computer
+    include Configurable
+
+    config_accessor :host    
+    config_accessor :type
+    config_accessor :ip  
+    
+    def initialize(host, type)
+      @host = host
+      @type = type
+    end
+  end
+
+Now define some DSLish config helpers. Each injects a different @type@ as 
+arguments to the @configure@ methods. Use as much arguments as you like. But it's 
+important, that the @key@ (in this case the @name@) is still the first argument.
+
+  def server(name, &block)
+    Computer.configure(name, :server, &block)
+  end
+
+  def notebook(name, &block)
+    Computer.configure(name, :notebook, &block)
+  end
+
+Create a config file and use the DSL. Although the helpers simply wrap the 
+@configure@ method it looks much nicer!
+
+  server 'raumstation' do
+    ip '192.168.0.201'
+  end
+
+  server 'wohnserver' do
+    ip '192.168.0.202'
+  end
+
+  notebook 'gartenstuhl' do
+    ip '192.168.0.203'
+  end
+
+Back in your ruby file, load the config and use it as usual.
+
+  config_file = 'computers.config'
+  load config_file
+
+  ips = Computer.map {|name, computer| computer.ip }
+  #=> ["192.168.0.201", "192.168.0.200", "192.168.0.202", "192.168.0.203"]
+
+  raumstation = Computer['raumstation']
+  raumstation.type #=> :server
+
+That's it!
+
+
+h2. Contact
+
+You can contact me via mail at blindgaenger at gmail dot com, or leave me a 
+message on my "Github profile":http://github.com/blindgaenger.
+
