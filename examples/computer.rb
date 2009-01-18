@@ -30,7 +30,7 @@ def notebook(name, &block)
 end
 
 
-# load the config (here from 'computers.config')
+# load the config (here from 'computer.config')
 config_file = $0.gsub /#{File.extname($0)}$/, '.config'
 load config_file
 

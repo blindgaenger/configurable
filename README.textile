@@ -5,9 +5,11 @@ Little helper to configure ruby instances in a DSLish way.
 
 h2. Usage
 
-See the @examples/triangle.rb@ for the example described here.
+See @examples/*.rb@ for all examples described here.
 
-Include it in your class and define some configuration attributes:
+h3. Basic usage (Triangle example)
+
+Include @Configurable@ in your class and define some configuration attributes:
 
 <pre><code>
   require 'rubygems'
@@ -51,7 +53,7 @@ Use the configured instances.
 Of course, feel free to have a look at the "source code":http://github.com/blindgaenger/configurable on Github. ;)  
 
  
-h3. Initalize with the configured key
+h3. Initalize with the configured key (Website example)
 
 In some cases the key you use in the @configure@ method should be available in 
 the model as well. Of course, you could specify it again, but that's not necessary.
@@ -81,7 +83,7 @@ the specified key. It's up to you, what you do with it.
 </code></pre>
 
 
-h3. Reader, writer or accessor
+h3. Reader, writer and accessor (Person example)
 
 The basic @attr_*@ methods are available as @config_*@. They create the getter 
 and setter methods as usual. So you can still define which attributes should be 
@@ -127,7 +129,7 @@ accessible from the outside world.
 You see, all behave the exact same way!
 
 
-h3. Use in configuration files
+h3. Use in configuration files (Computer example)
 
 Please see @examples/computers.rb@ for the working example.
 

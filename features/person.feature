@@ -1,4 +1,4 @@
-Feature: Reader, writer and accessor
+Feature: Reader, writer and accessor (Person example)
 
   Scenario: config_reader
     Given a configurable class Person
