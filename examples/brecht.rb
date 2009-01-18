@@ -18,11 +18,11 @@ end
 brecht = Person['Bertolt Brecht']
 
 # reader
-puts brecht.birthday
+brecht.birthday   #=> 1898-02-10
 begin  
   brecht.birthday = '2008-12-24'
 rescue NoMethodError => ex
-  puts ex
+  #=> undefined method `birthday=' for #<Person:0xb7c30d04>
 end
 
 # writer
@@ -30,10 +30,11 @@ brecht.nickname = 'Herr K.'
 begin
   brecht.nickname
 rescue NoMethodError => ex
-  puts ex
+  #=> super: no superclass method `nickname'
 end
 
 # accessor
-p brecht.friends
+brecht.friends    #=> ["Hanns Eisler", "Karl Valentin"]
 brecht.friends << 'Carola Neher'
-p brecht.friends  
+brecht.friends    #=> ["Hanns Eisler", "Karl Valentin", "Carola Neher"]
+
