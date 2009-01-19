@@ -29,10 +29,10 @@ Feature: Reader, writer and accessor (Person example)
     And it defines a config_accessor called "friends"
 
     When I configure Person as "Bertolt Brecht"
-    And I configure "friends" to "Hanns Eisler, Karl Valentin"
+    And I configure "friends" to ['Hanns Eisler', 'Karl Valentin']
 
     Then I can get it from Person as "Bertolt Brecht"
-    And I can get "friends" as "Hanns Eisler, Karl Valentin"
-    And I can set "friends" to "Hanns Eisler, Karl Valentin, Carola Neher"
-    And I can get "friends" as "Hanns Eisler, Karl Valentin, Carola Neher"
+    And I can get "friends" as ['Hanns Eisler', 'Karl Valentin']
+    And I can set "friends" to ['Hanns Eisler', 'Karl Valentin', 'Carola Neher']
+    And I can get "friends" as ['Hanns Eisler', 'Karl Valentin', 'Carola Neher']
 
