@@ -7,13 +7,17 @@ end
 Given /^it defines a config_(\w+) called "(\w+)"$/ do |type, name|
   raise "unknown config type #{type}" unless %(reader writer accessor).include? type  
 
-  m = (@config_class.instance_methods - Object.methods)
-  if %(accessor reader).include? type  
+  m = @config_class.instance_methods
+  if %(accessor reader).include? type
     m.include?(name).should be_true
   end
   if %(accessor writer).include? type
     m.include?("#{name}=").should be_true  
   end
+end
+
+Given /^it defines the constructor (.*)$/ do |block|
+  #TODO: how to check that
 end
 
 Given /^a helper method "(\w+)" is defined$/ do |method_name|
