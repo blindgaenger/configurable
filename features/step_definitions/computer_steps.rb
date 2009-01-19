@@ -37,19 +37,3 @@ World do |world|
 end
 
 
-Given /^a helper method "(\w+)" is defined$/ do |method_name|
-  respond_to?(method_name.to_sym).should be_true
-end
-
-When /^I load config file "(.+)"$/ do |config_file|
-  filename = File.expand_path File.join(File::dirname(__FILE__), '..', 'lib', config_file)
-  raise "could not find config file #{filename}" unless File.exist? filename
-  # eval in the world's context
-  eval File.read(filename)
-end
-
-Then /^I can get (\d+) configs from (\w+)$/ do |config_count, config_name|
-  eval(config_name).size.should == config_count.to_i
-  eval(config_name).configs.size.should == config_count.to_i
-end
-
