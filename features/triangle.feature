@@ -2,8 +2,8 @@ Feature: Basic usage (Triangle example)
 
   Scenario: euclid and pythagoras
     Given a configurable class Triangle
-    And it defines a config_accessor called "shape"
-    And it defines a config_accessor called "color"
+    And it defines a config_accessor as "shape"
+    And it defines a config_accessor as "color"
 
     When I configure Triangle as "euclid"
     And I configure "shape" to "isosceles"

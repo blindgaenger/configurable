@@ -1,23 +1,16 @@
-Given /^a configurable class (.*)$/ do |config_name|
-  @config_class = eval(config_name)
-  @config_class.should_not be_nil
-  @config_class.included_modules.include?(Configurable).should be_true
+Given /^a configurable class (.*)$/ do |class_name|
+  @config_class = Class.new do
+    include Configurable
+  end
+  Object.const_set class_name, @config_class
 end
 
-Given /^it defines a config_(\w+) called "(\w+)"$/ do |type, name|
-  raise "unknown config type #{type}" unless %(reader writer accessor).include? type  
-
-  m = @config_class.instance_methods
-  if %(accessor reader).include? type
-    m.include?(name).should be_true
-  end
-  if %(accessor writer).include? type
-    m.include?("#{name}=").should be_true  
-  end
+Given /^it defines a (\w+) as "(\w+)"$/ do |type, name|
+  @config_class.instance_eval "#{type} :#{name}"
 end
 
-Given /^it defines the constructor (.*)$/ do |block|
-  #TODO: how to check that
+Given /^it defines a method as (.*)$/ do |method|
+  @config_class.class_eval method
 end
 
 Given /^a helper method "(\w+)" is defined$/ do |method_name|
@@ -26,7 +19,7 @@ end
 
 
 When /^I configure (\w+) as (.*)$/ do |config_name, key|
-  @config_class.to_s.should == config_name
+  @config_class = eval(config_name)
   @config_instance = @config_class.configure(eval(key)) do
     # configure attributes in the following steps
   end
@@ -48,6 +41,7 @@ end
 
 
 Then /^I can get it from (\w+) as (.*)$/ do |config_name, key|
+  @config_class = eval(config_name)
   @config_instance = @config_class[eval(key)]
   @config_instance.should_not be_nil
   @config_instance.class.should == @config_class

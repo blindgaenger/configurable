@@ -2,7 +2,7 @@ Feature: Reader, writer and accessor (Person example)
 
   Scenario: config_reader
     Given a configurable class Person
-    And it defines a config_reader called "birthday"
+    And it defines a config_reader as "birthday"
 
     When I configure Person as "Bertolt Brecht"
     And I configure "birthday" to "1898-02-10"
@@ -14,7 +14,7 @@ Feature: Reader, writer and accessor (Person example)
 
   Scenario: config_writer
     Given a configurable class Person
-    And it defines a config_writer called "nickname"
+    And it defines a config_writer as "nickname"
 
     When I configure Person as "Bertolt Brecht"
     And I configure "nickname" to "Bert"
@@ -26,7 +26,7 @@ Feature: Reader, writer and accessor (Person example)
 
   Scenario: config_accessor
     Given a configurable class Person
-    And it defines a config_accessor called "friends"
+    And it defines a config_accessor as "friends"
 
     When I configure Person as "Bertolt Brecht"
     And I configure "friends" to ['Hanns Eisler', 'Karl Valentin']

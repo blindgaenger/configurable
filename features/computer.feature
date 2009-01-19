@@ -2,8 +2,10 @@ Feature: Use in configuration files (Computer example)
 
   Scenario: load config from file
     Given a configurable class Computer
-    And it defines a config_accessor called "hostname"
-    And it defines a config_accessor called "ip"    
+    And it defines a attr_accessor as "type"    
+    And it defines a config_accessor as "hostname"
+    And it defines a config_accessor as "ip"
+    And it defines a method as def initialize(host, type); @hostname = host; @type = type; end
 
     And a helper method "server" is defined
     And a helper method "desktop" is defined    
