@@ -6,6 +6,7 @@ Given /^a configurable class (.*)$/ do |class_name|
 end
 
 Given /^it defines a (\w+) as "(\w+)"$/ do |type, name|
+  # config_* as :foobar
   @config_class.instance_eval "#{type} :#{name}"
 end
 

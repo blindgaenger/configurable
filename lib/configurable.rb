@@ -51,6 +51,9 @@ module Configurable
       config_attr(true, false, *names, &block)
     end
 
+    def base.config_attribute(*names, &block)
+      config_attr(false, false, *names, &block)
+    end
 
     def base.configure(key, *args, &block)
       # arity isn't reliable, so just try it

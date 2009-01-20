@@ -4,9 +4,10 @@ require 'configurable'
 class Person
   include Configurable
 
-  config_reader   :birthday   # can't change it
-  config_writer   :nickname   # don't even know how they call you
-  config_accessor :friends    # may come and go
+  config_attribute :health     # can't be given or stolen
+  config_reader    :birthday   # can't change it
+  config_writer    :nickname   # don't even know how they call you
+  config_accessor  :friends    # may come and go
 end
 
 Person.configure 'Bertolt Brecht' do
@@ -16,6 +17,18 @@ Person.configure 'Bertolt Brecht' do
 end
 
 brecht = Person['Bertolt Brecht']
+
+# attribute
+begin
+  brecht.health
+rescue NoMethodError => ex
+  #=> super: no superclass method `health'
+end
+begin
+  brecht.health = 'bad'
+rescue NoMethodError => ex
+  #=> undefined method `health=' for #<Person:0xb7c30d04>
+end
 
 # reader
 brecht.birthday   #=> 1898-02-10

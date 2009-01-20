@@ -1,4 +1,17 @@
-Feature: Reader, writer and accessor (Person example)
+Feature: Config attributes, readers, writers and accessors (Person example)
+
+  Scenario: config_attribute
+    Given a configurable class Person
+    And it defines a config_attribute as "health"
+    And it defines a method as def how_are_you; @health; end
+
+    When I configure Person as "Bertolt Brecht"
+    And I configure "health" to "good"
+
+    Then I can get it from Person as "Bertolt Brecht"
+    And I can not get "health"
+    And I can not set "health"
+    And I can get "how_are_you" as "good"
 
   Scenario: config_reader
     Given a configurable class Person

@@ -83,7 +83,7 @@ the specified key. It's up to you, what you do with it.
 </code></pre>
 
 
-h3. Reader, writer and accessor (Person example)
+h3. Config attributes, readers, writers and accessors (Person example)
 
 The basic @attr_*@ methods are available as @config_*@. They create the getter 
 and setter methods as usual. So you can still define which attributes should be 
@@ -93,40 +93,42 @@ accessible from the outside world.
   class Person
     include Configurable
 
-    config_reader   :birthday   # can't change it
-    config_writer   :nickname   # don't even know how they call you
-    config_accessor :friends    # may come and go
+    config_attribute :health     # can't be given or stolen
+    config_reader    :birthday   # can't change it
+    config_writer    :nickname   # don't even know how they call you
+    config_accessor  :friends    # may come and go
   end
   
   Person.configure 'Bertolt Brecht' do
+    health   'good'
     birthday '1898-02-10'
     nickname 'Bert'
-    friends 'Hanns Eisler', 'Karl Valentin'
+    friends  ['Hanns Eisler', 'Karl Valentin']
   end
   
   brecht = Person['Bertolt Brecht']
   
+  # attribute
+  brecht.health                    #=> NoMethodError
+  brecht.health = 'bad'            #=> NoMethodError
+  
   # reader
-  brecht.birthday #=> 1898-02-10
-  begin  
-    brecht.birthday = '2008-12-24'
-  rescue NoMethodError => ex
-  end
+  brecht.birthday                  #=> 1898-02-10
+  brecht.birthday = '2008-12-24'   #=> NoMethodError
   
   # writer
-  brecht.nickname = 'Herr K.'
-  begin
-    brecht.nickname
-  rescue NoMethodError => ex
-  end
+  brecht.nickname = 'Herr K.'      #=> 'Herr K.'
+  brecht.nickname                  #=> NoMethodError
   
   # accessor
-  brecht.friends #=> ["Hanns Eisler", "Karl Valentin"]
-  brecht.friends << 'Carola Neher'
-  brecht.friends #=> ["Hanns Eisler", "Karl Valentin", "Carola Neher"]  
+  brecht.friends                   #=> ["Hanns Eisler", "Karl Valentin"]
+  brecht.friends << 'Carola Neher' #=> ["Hanns Eisler", "Karl Valentin", "Carola Neher"]  
+  brecht.friends                   #=> ["Hanns Eisler", "Karl Valentin", "Carola Neher"]  
 </code></pre>
 
-You see, all behave the exact same way!
+You see, all behave the exact same way as your attr_* helpers! Except for the new
+config_attribute, which defines the instance variable, but does not share it to
+the outside world.
 
 
 h3. Use in configuration files (Computer example)
