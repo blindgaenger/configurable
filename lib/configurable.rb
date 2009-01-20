@@ -1,3 +1,6 @@
+require 'rubygems'
+require 'facets' 
+
 module Configurable
 
   def self.included(base)
@@ -25,9 +28,11 @@ module Configurable
                 super # should raise the error
               end
             else
-              value = *args
-              value = block.call(*args) if block_given?
-              instance_variable_set("@#{name}", value)
+              if block_given?
+                instance_exec(*args, &block)
+              else
+                instance_variable_set("@#{name}", *args)
+              end
             end
           end
 
