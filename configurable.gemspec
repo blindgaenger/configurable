@@ -1,8 +1,8 @@
 Gem::Specification.new do |s|
   s.platform = Gem::Platform::RUBY
   s.name = "configurable"
-  s.version = "0.1"
-  s.date = "2009-01-18"  
+  s.version = "0.2"
+  s.date = "2009-01-21"  
   s.authors = ["blindgaenger"]
   s.email = "blindgaenger@gmail.com"
   s.homepage = "http://github.com/blindgaenger/configurable"  

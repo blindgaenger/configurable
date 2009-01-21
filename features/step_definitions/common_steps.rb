@@ -10,6 +10,11 @@ Given /^it defines a (\w+) as "(\w+)"$/ do |type, name|
   @config_class.instance_eval "#{type} :#{name}"
 end
 
+Given /^it defines a (\w+) as "(\w+)" with (.*)$/ do |type, name, block|
+  # config_* as :foobar do; end
+  @config_class.instance_eval "#{type} :#{name} #{block}"
+end
+
 Given /^it defines a method as (.*)$/ do |method|
   @config_class.class_eval method
 end

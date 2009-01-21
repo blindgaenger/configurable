@@ -197,6 +197,39 @@ Back in your ruby file, load the config and use it as usual.
   raumstation.type #=> :server
 </code></pre>
 
+
+h3. Configs with code blocks (Tower example)
+
+By providing a block you can define what your @config_*@ method should do. This
+way you can implement for example validations or stacks. Something like this:
+
+<pre><code>
+class Tower
+  include Configurable
+
+  attr_reader :stack
+
+  config_attribute :brick do |color|
+    raise "argh, #{color}!!!" if color == 'purple'
+    @stack ||= []
+    @stack << color
+  end
+end
+</code></pre>
+
+Now the @brick@ method can be called multiple times. And for the @purple@ color
+you'll get an angry error.
+
+<pre><code>
+brick = Tower.configure 'nice' do
+  brick 'red'
+  brick 'green'
+  brick 'green'
+  brick 'blue'
+end
+brick.stack #=> ["red", "green", "green", "blue"]
+</code></pre>
+
 That's it!
 
 
